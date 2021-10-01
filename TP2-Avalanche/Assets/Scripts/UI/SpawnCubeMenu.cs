@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnCube : MonoBehaviour
+public class SpawnCubeMenu : MonoBehaviour
 {
     [SerializeField] Collider spawnPlane;
     [SerializeField] List<GameObject> cubes;
@@ -10,7 +10,7 @@ public class SpawnCube : MonoBehaviour
     private float spawnRate = 1f;
     private float timer = 0f;
     private int counter = 0;
-    private int maxCubes = 75;
+    private int maxCubes = 50;
 
     void Start()
     {
