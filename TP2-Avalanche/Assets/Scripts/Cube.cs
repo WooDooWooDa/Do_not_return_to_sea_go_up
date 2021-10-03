@@ -5,6 +5,7 @@ using UnityEngine;
 public class Cube : MonoBehaviour
 {
     [SerializeField] LayerMask cubeLayer;
+    [SerializeField] LayerMask groundLayer;
     private GameObject water;
     private Rigidbody body;
 
@@ -24,7 +25,7 @@ public class Cube : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if ((cubeLayer.value & (1 << collision.transform.gameObject.layer)) > 0)
+        if ((cubeLayer.value & (1 << collision.transform.gameObject.layer)) > 0 || (groundLayer.value & (1 << collision.transform.gameObject.layer)) > 0)
         {
             body.isKinematic = true;
         }

@@ -128,3 +128,6 @@ MonoBehaviour:
   cubeLayer:
     serializedVersion: 2
     m_Bits: 64
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8

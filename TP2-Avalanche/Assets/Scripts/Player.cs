@@ -4,15 +4,34 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private float maxHeigth;
+
     void Start()
     {
-        
+        SetPlayerColor(new Color(0.9f, 0, 0, 1));
     }
 
-    // Update is called once per frame
+
     void Update()
     {
-        
+        updateMaxHeight();
+    }
+    
+    public float GetMaxHeigth()
+    {
+        return maxHeigth;
+    }
+
+    public void SetPlayerColor(Color color)
+    {
+        gameObject.GetComponentInChildren<Renderer>().material.color = color;
+    }
+
+    private void updateMaxHeight()
+    {
+        if (transform.position.y > maxHeigth)
+        {
+            maxHeigth = transform.position.y;
+        }
     }
 }

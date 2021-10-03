@@ -43,7 +43,7 @@ public class SpawnCubeMenu : MonoBehaviour
         cube.transform.position = RandomPointInBounds(spawnPlane.bounds);
     }
 
-    public static Vector3 RandomPointInBounds(Bounds bounds)
+    private static Vector3 RandomPointInBounds(Bounds bounds)
     {
         return new Vector3(
             Random.Range(bounds.min.x, bounds.max.x),
