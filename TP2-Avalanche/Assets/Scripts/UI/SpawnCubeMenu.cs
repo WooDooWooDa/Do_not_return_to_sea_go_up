@@ -41,6 +41,7 @@ public class SpawnCubeMenu : MonoBehaviour
     {
         GameObject cube = Instantiate(cubes[Random.Range(0, cubes.Count)]);
         cube.transform.position = RandomPointInBounds(spawnPlane.bounds);
+        cube.transform.SetParent(spawnPlane.transform);
     }
 
     private static Vector3 RandomPointInBounds(Bounds bounds)

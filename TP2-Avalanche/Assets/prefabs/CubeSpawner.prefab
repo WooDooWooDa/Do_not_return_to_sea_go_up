@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 3121953090231059110}
   m_Layer: 0
   m_Name: CubeSpawner
-  m_TagString: Untagged
+  m_TagString: CubeSpawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -144,5 +144,4 @@ MonoBehaviour:
   cubes:
   - {fileID: 1823493791018699648, guid: 93825498dd151044eb20994e3ee1ce08, type: 3}
   - {fileID: 8163145461789231391, guid: f752573c6e7a01242aa08b07c14428af, type: 3}
-  gameManager: {fileID: 1203441230428637475, guid: 1ff49e0dc13d65f48ba36f10146b298f, type: 3}
-  players: []
+  gameManager: {fileID: 0}

@@ -45,8 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   players: []
-  island: {fileID: 1292581551217146324, guid: cf37b28b8170892419b0a7809041a9bc, type: 3}
-  env: {fileID: 0}
+  env: {fileID: 8320823170953685338, guid: 9084247ed7706494d954086f19e003e2, type: 3}
 --- !u!114 &1203441230428637476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,5 +58,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c9bb536df6262b4a94f53afe43fa17f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  water: {fileID: 8976378836404544036, guid: 266185ccd6fd0124bb1501e472a6b836, type: 3}
+  water: {fileID: 0}
   raiseLevel: 0.1

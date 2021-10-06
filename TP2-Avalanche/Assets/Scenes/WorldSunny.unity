@@ -123,63 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &475140336
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7324832743044419727, guid: 9084247ed7706494d954086f19e003e2, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7324832743044419727, guid: 9084247ed7706494d954086f19e003e2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.64
-      objectReference: {fileID: 0}
-    - target: {fileID: 7324832743044419727, guid: 9084247ed7706494d954086f19e003e2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.22
-      objectReference: {fileID: 0}
-    - target: {fileID: 7324832743044419727, guid: 9084247ed7706494d954086f19e003e2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.57
-      objectReference: {fileID: 0}
-    - target: {fileID: 7324832743044419727, guid: 9084247ed7706494d954086f19e003e2, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7324832743044419727, guid: 9084247ed7706494d954086f19e003e2, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7324832743044419727, guid: 9084247ed7706494d954086f19e003e2, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7324832743044419727, guid: 9084247ed7706494d954086f19e003e2, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7324832743044419727, guid: 9084247ed7706494d954086f19e003e2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7324832743044419727, guid: 9084247ed7706494d954086f19e003e2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7324832743044419727, guid: 9084247ed7706494d954086f19e003e2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320823170953685338, guid: 9084247ed7706494d954086f19e003e2, type: 3}
-      propertyPath: m_Name
-      value: EnvDay
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 9084247ed7706494d954086f19e003e2, type: 3}
 --- !u!1 &927299326
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,10 +435,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Squid
       objectReference: {fileID: 0}
-    - target: {fileID: 2763346651648705357, guid: 500f9853b9cf19a4592976ec250359c9, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 3247853509302360567, guid: 500f9853b9cf19a4592976ec250359c9, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -606,10 +545,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1203441230428637475, guid: 1ff49e0dc13d65f48ba36f10146b298f, type: 3}
-      propertyPath: env
-      value: 
-      objectReference: {fileID: 8320823170953685338, guid: 9084247ed7706494d954086f19e003e2, type: 3}
     - target: {fileID: 1203441230428637476, guid: 1ff49e0dc13d65f48ba36f10146b298f, type: 3}
       propertyPath: water
       value: 

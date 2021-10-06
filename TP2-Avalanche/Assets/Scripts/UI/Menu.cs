@@ -6,6 +6,8 @@ public class Menu : MonoBehaviour
 {
     [SerializeField] GameObject optionMenu;
     [SerializeField] GameObject playMenu;
+    [SerializeField] GameObject nameMenu;
+
     public void ToggleOptionActive()
     {
         optionMenu.SetActive(!optionMenu.activeSelf);
@@ -14,6 +16,11 @@ public class Menu : MonoBehaviour
     public void TogglePlayActive()
     {
         playMenu.SetActive(!playMenu.activeSelf);
+    }
+
+    public void ToggleNameActive()
+    {
+        nameMenu.SetActive(!nameMenu.activeSelf);
     }
 
     public void QuitGame()

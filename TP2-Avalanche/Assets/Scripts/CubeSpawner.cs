@@ -7,7 +7,7 @@ public class CubeSpawner : MonoBehaviour
     [SerializeField] Collider spawnPlane;
     [SerializeField] List<GameObject> cubes;
     [SerializeField] GameManage gameManager;
-    [SerializeField] private List<Player> players;
+    private List<Player> players;
 
     private float spawnRate = 1f;
     private float timer = 0f;
@@ -28,20 +28,19 @@ public class CubeSpawner : MonoBehaviour
         if (timer <= 0f)
         {
             SpawnCube();
-            timer = spawnRate + Random.Range(-0.2f, 1f);
+            timer = spawnRate + Random.Range(-0.2f, 0.5f);
         }
     }
 
     private void SetWidth()
     {
-        spawnPlane.transform.localScale = new Vector3(gameManager.GetIslandSize().x / 10, 0, 0.1f); ;
+        spawnPlane.transform.localScale = new Vector3(gameManager.GetIslandSize() / 10, 0, 0.1f);
     }
 
     private void UpdatePosition()
     {
-        foreach (Player player in players)
-        {
-            if (transform.position.y < player.GetMaxHeigth())
+        foreach (Player player in players) {
+            if (transform.position.y < player.GetMaxHeigth() + minHeight)
                 transform.position = new Vector3(transform.position.x, player.GetMaxHeigth() + minHeight, transform.position.z);
         }
     }

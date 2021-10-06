@@ -6,6 +6,9 @@ TagManager:
   tags:
   - MenuCubes
   - Water
+  - Island
+  - CubeSpawner
+  - PlayerGrid
   layers:
   - Default
   - TransparentFX
