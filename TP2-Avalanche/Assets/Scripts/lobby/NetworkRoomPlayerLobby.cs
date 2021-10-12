@@ -5,11 +5,10 @@ using UnityEngine;
 
 public class NetworkRoomPlayerLobby : NetworkBehaviour
 {
-    private string playerName;
-    private bool ready = false;
+    public string PlayerName { get; set; }
 
-    public bool IsReady()
+    public void IsReady()
     {
-        return ready;
+        NetworkClient.ready = true;
     }
 }

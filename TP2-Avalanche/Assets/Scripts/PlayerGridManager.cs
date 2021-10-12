@@ -18,11 +18,6 @@ public class PlayerGridManager : NetworkBehaviour
         playerRows = new List<LobbyGridRow>();
     }
 
-    private void UpdatePlayerCount(int oldValue, int newValue)
-    {
-        playerCountText.text = "Players " + newValue + "/10";
-    }
-
     [ClientRpc]
     public void ReloadRows()
     {
@@ -35,8 +30,13 @@ public class PlayerGridManager : NetworkBehaviour
         var playerGrid = GameObject.FindGameObjectWithTag("PlayerGrid");
         var row = Instantiate(lobbyRowPrefab, playerGrid.transform.position, playerGrid.transform.rotation);
         playerRows.Add(row.GetComponent<LobbyGridRow>());
-        (row.GetComponent<LobbyGridRow>()).SetName(PlayerPrefs.GetString(PlayerNameInput.NAME_KEY), 1);
+        (row.GetComponent<LobbyGridRow>()).SetName(roomPlayer.PlayerName, 1);
         row.transform.SetParent(playerGrid.transform);
         nbPlayers = playerRows.Count;
+    }
+
+    private void UpdatePlayerCount(int oldValue, int newValue)
+    {
+        playerCountText.text = "Players " + newValue + "/10";
     }
 }

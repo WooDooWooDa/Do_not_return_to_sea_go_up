@@ -1,35 +1,40 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     [SerializeField] CharacterController controller;
     [SerializeField] float speed = 12f;
-    [SerializeField] float gravity = -9.81f * 3;
+    [SerializeField] float gravity = -9.81f * 5;
     [SerializeField] float jumpHeight = 2f;
     [SerializeField] LayerMask groundMask;
     [SerializeField] LayerMask cubeLayer;
     [SerializeField] Transform groundCheck;
 
-    private float groundDistance = 0.3f;
+    private float groundDistance = 0.6f;
     private Vector3 velocity;
     private bool isGrounded;
+    private bool isWalling = false;
+
+    private Animator animator;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
     }
 
-    
     void Update()
     {
-        
+        if (!isLocalPlayer) return;
+
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask) || Physics.CheckSphere(groundCheck.position, groundDistance, cubeLayer);
 
-        if (isGrounded && velocity.y < 0)
+        if (!isGrounded && velocity.y < 0)
         {
-            velocity.y = -2f;
+            velocity.y = -6f;
         }
 
         float horizontalInput = Input.GetAxis("Horizontal");
@@ -42,11 +47,20 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            Jump();
         }
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }
 
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        animator.SetBool("isWalling", hit.normal.y < 0.1f);
+    }
+
+    private void Jump()
+    {
+        velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+    }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -16,7 +14,12 @@ public class Player : MonoBehaviour
     {
         updateMaxHeight();
     }
-    
+
+    public void Kill()
+    {
+        Debug.Log("Kill Player");
+    }
+
     public float GetMaxHeigth()
     {
         return maxHeigth;
@@ -24,7 +27,7 @@ public class Player : MonoBehaviour
 
     public void SetPlayerColor(Color color)
     {
-        gameObject.GetComponentInChildren<Renderer>().material.color = color;
+        gameObject.GetComponentInChildren<Renderer>().material.color = GetRandomColor();
     }
 
     private void updateMaxHeight()
@@ -33,5 +36,14 @@ public class Player : MonoBehaviour
         {
             maxHeigth = transform.position.y;
         }
+    }
+
+    private Color GetRandomColor()
+    {
+        return new Color(
+            Random.Range(0f, 1f),
+            Random.Range(0f, 1f),
+            Random.Range(0f, 1f)
+        );
     }
 }

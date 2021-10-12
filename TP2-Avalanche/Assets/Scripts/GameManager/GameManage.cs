@@ -1,17 +1,30 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManage : MonoBehaviour
+public class GameManage : NetworkBehaviour
 {
     [SerializeField] List<Player> players;
     [SerializeField] GameObject env;
+    [SerializeField] GameObject spawnPointPrefab;
 
     void Awake()
     {
         GetPlayers();
         SetIslandSize();
-        SpawnEnv();
+        SpawnSpawnPoint();
+    }
+
+    public void AddPlayer()
+    {
+        
+    }
+
+    public void OnPlayerConnected(NetworkIdentity player)
+    {
+        GetPlayers();
+        SetIslandSize();
     }
 
     public List<Player> GetPlayerList()
@@ -28,6 +41,22 @@ public class GameManage : MonoBehaviour
     {
         float islandLength = players.Count > 1 ? (players.Count * 0.5f) : 0.5f;
         (GameObject.FindGameObjectWithTag("Island")).transform.localScale = new Vector3(islandLength, 1, 1);
+        SpawnEnv();
+    }
+
+    private void SpawnSpawnPoint()
+    {
+        var nbSpawn = Mathf.Round(GetIslandSize() / 15);
+        var startX = 0f;
+        if (nbSpawn >= 1)
+        {
+            startX = (-7f * nbSpawn) + 7f;
+        }
+        for (int i = 0; i < nbSpawn; i++)
+        {
+            Instantiate(spawnPointPrefab, new Vector3(transform.position.x + (startX), 3, 0), transform.rotation);
+            startX += 14f;
+        }
     }
 
     private void SpawnEnv()

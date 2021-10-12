@@ -3994,6 +3994,14 @@ MonoBehaviour:
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs: []
+  showRoomGUI: 1
+  minPlayers: 1
+  roomPlayerPrefab: {fileID: -3614199185792594124, guid: b23e09917d431354696a7bea047478ab, type: 3}
+  RoomScene: Assets/Scenes/Menu.unity
+  GameplayScene: Assets/Scenes/WorldSunny.unity
+  _allPlayersReady: 0
+  roomSlots: []
+  clientIndex: 0
   menuScene: Menu
   roomPlayerPrefab: {fileID: -3614199185792594124, guid: b23e09917d431354696a7bea047478ab, type: 3}
 --- !u!4 &837884987
@@ -5816,7 +5824,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 616658783}
+      - m_Target: {fileID: 344517260}
         m_TargetAssemblyTypeName: 
         m_MethodName: 
         m_Mode: 1

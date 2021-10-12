@@ -58,9 +58,9 @@ public class NetworkManagerLobby : NetworkManager
         if (SceneManager.GetActiveScene().name == menuScene)
         {
             NetworkRoomPlayerLobby roomPlayerLobby = Instantiate(roomPlayerPrefab);
+            roomPlayerLobby.PlayerName = PlayerPrefs.GetString(PlayerNameInput.NAME_KEY);
             NetworkServer.AddPlayerForConnection(conn, roomPlayerLobby.gameObject);
             (FindObjectOfType<PlayerGridManager>()).AddRow(roomPlayerLobby);
-
         }
     }
 }
