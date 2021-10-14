@@ -123,6 +123,67 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &266109997 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4319891733855279607, guid: 9e1277e3876b6d047a8b27569661cbb7, type: 3}
+  m_PrefabInstance: {fileID: 4319891732928612986}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &266109998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266109997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1748ee5744058ca4e843576a2094da4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dontDestroyOnLoad: 1
+  PersistNetworkManagerToOfflineScene: 0
+  runInBackground: 1
+  autoStartServerBuild: 1
+  serverTickRate: 30
+  offlineScene: 
+  onlineScene: 
+  transport: {fileID: 266109999}
+  networkAddress: localhost
+  maxConnections: 10
+  disconnectInactiveConnections: 0
+  disconnectInactiveTimeout: 60
+  authenticator: {fileID: 0}
+  playerPrefab: {fileID: 2763346651648705357, guid: 500f9853b9cf19a4592976ec250359c9, type: 3}
+  autoCreatePlayer: 1
+  playerSpawnMethod: 0
+  spawnPrefabs: []
+  gameManager: {fileID: 1627786561}
+--- !u!114 &266109999 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4319891733855279605, guid: 9e1277e3876b6d047a8b27569661cbb7, type: 3}
+  m_PrefabInstance: {fileID: 4319891732928612986}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266109997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b0fecffa3f624585964b0d0eb21b18e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &266110000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266109997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showGUI: 1
+  offsetX: 0
+  offsetY: 0
 --- !u!1 &927299326
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,32 +343,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8976378836404544036, guid: 266185ccd6fd0124bb1501e472a6b836, type: 3}
   m_PrefabInstance: {fileID: 1253699481}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &1125639284
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1125639283}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: ebfb4988eb16add4784122504f75fe2f, type: 2}
---- !u!114 &1125639285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1125639283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1a869ac45853ec4487169371a80870e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1253699481
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -518,6 +553,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4319891733855279594, guid: 9e1277e3876b6d047a8b27569661cbb7, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4319891733855279594, guid: 9e1277e3876b6d047a8b27569661cbb7, type: 3}
+      propertyPath: maxConnections
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4319891733855279594, guid: 9e1277e3876b6d047a8b27569661cbb7, type: 3}
       propertyPath: autoCreatePlayer
       value: 1
       objectReference: {fileID: 0}
@@ -569,5 +612,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: NetworkManager
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4319891733855279595, guid: 9e1277e3876b6d047a8b27569661cbb7, type: 3}
+    - {fileID: 4319891733855279594, guid: 9e1277e3876b6d047a8b27569661cbb7, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9e1277e3876b6d047a8b27569661cbb7, type: 3}

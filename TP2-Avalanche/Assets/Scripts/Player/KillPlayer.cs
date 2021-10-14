@@ -4,11 +4,26 @@ using UnityEngine;
 
 public class KillPlayer : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider collision)
+    private PlayerMovement playerMovement;
+
+    private void Awake()
     {
-        if (collision.tag == "Player")
+        playerMovement = GetComponent<PlayerMovement>();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (playerMovement.IsGrounded && collision.relativeVelocity.y < 0) //kill player if crushed
         {
-            (collision.gameObject.GetComponent<Player>()).Kill();
+            GetComponent<Player>().Kill();
+        }
+    }
+
+    private void OnTriggerEnter(Collider collision) 
+    {
+        if (collision.tag == "Water") // kill if in water
+        {
+            GetComponent<Player>().Kill();
         }
     }
 }

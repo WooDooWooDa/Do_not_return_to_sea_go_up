@@ -13,7 +13,9 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] LayerMask cubeLayer;
     [SerializeField] Transform groundCheck;
 
-    private float groundDistance = 0.6f;
+    public bool IsGrounded { get { return isGrounded; } }
+
+    private float groundDistance = 0.4f;
     private Vector3 velocity;
     private bool isGrounded;
     private bool isWalling = false;
@@ -52,6 +54,11 @@ public class PlayerMovement : NetworkBehaviour
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(groundCheck.position, groundDistance);
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)

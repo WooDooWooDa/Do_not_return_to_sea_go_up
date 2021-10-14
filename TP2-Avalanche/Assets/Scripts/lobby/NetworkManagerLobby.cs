@@ -10,6 +10,7 @@ public class NetworkManagerLobby : NetworkManager
 
     [Header("Room")]
     [SerializeField] private NetworkRoomPlayerLobby roomPlayerPrefab = null;
+    [SerializeField] private LobbyManager lobbyManager;
 
     public static event Action OnClientConnected;
     public static event Action OnClientDisconnected;
@@ -53,6 +54,7 @@ public class NetworkManagerLobby : NetworkManager
         }
     }
 
+    [Server]
     public override void OnServerAddPlayer(NetworkConnection conn)
     {
         if (SceneManager.GetActiveScene().name == menuScene)
@@ -60,7 +62,9 @@ public class NetworkManagerLobby : NetworkManager
             NetworkRoomPlayerLobby roomPlayerLobby = Instantiate(roomPlayerPrefab);
             roomPlayerLobby.PlayerName = PlayerPrefs.GetString(PlayerNameInput.NAME_KEY);
             NetworkServer.AddPlayerForConnection(conn, roomPlayerLobby.gameObject);
-            (FindObjectOfType<PlayerGridManager>()).AddRow(roomPlayerLobby);
+            
+            lobbyManager.UpdateUIClient(roomPlayerLobby);
         }
     }
+
 }

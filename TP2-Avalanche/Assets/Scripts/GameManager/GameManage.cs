@@ -11,20 +11,14 @@ public class GameManage : NetworkBehaviour
 
     void Awake()
     {
+        //StartCoroutine(Initialize());
+    }
+
+    public void Initialize()
+    {
         GetPlayers();
         SetIslandSize();
         SpawnSpawnPoint();
-    }
-
-    public void AddPlayer()
-    {
-        
-    }
-
-    public void OnPlayerConnected(NetworkIdentity player)
-    {
-        GetPlayers();
-        SetIslandSize();
     }
 
     public List<Player> GetPlayerList()
@@ -54,7 +48,7 @@ public class GameManage : NetworkBehaviour
         }
         for (int i = 0; i < nbSpawn; i++)
         {
-            Instantiate(spawnPointPrefab, new Vector3(transform.position.x + (startX), 3, 0), transform.rotation);
+            Instantiate(spawnPointPrefab, new Vector3(transform.position.x + (startX), 3, 0), spawnPointPrefab.transform.rotation);
             startX += 14f;
         }
     }

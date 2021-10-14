@@ -18,13 +18,11 @@ public class PlayerGridManager : NetworkBehaviour
         playerRows = new List<LobbyGridRow>();
     }
 
-    [ClientRpc]
     public void ReloadRows()
     {
         var playersRoom = FindObjectsOfType<NetworkRoomPlayerLobby>();
     }
 
-    [Server]
     public void AddRow(NetworkRoomPlayerLobby roomPlayer)
     {
         var playerGrid = GameObject.FindGameObjectWithTag("PlayerGrid");

@@ -11,7 +11,7 @@ public class Cube : MonoBehaviour
 
     void Start()
     {
-        water = GameObject.FindGameObjectsWithTag("Water")[0];
+        water = GameObject.FindGameObjectWithTag("Water");
         body = GetComponent<Rigidbody>();
     }
 
@@ -20,6 +20,10 @@ public class Cube : MonoBehaviour
         if (transform.position.y < water.transform.position.y)
         {
             Destroy(gameObject);
+        }
+        if (body.velocity.y > 0.1)
+        {
+            body.velocity = Vector3.zero;
         }
     }
 
