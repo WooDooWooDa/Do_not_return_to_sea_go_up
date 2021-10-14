@@ -6,11 +6,8 @@ public class CheckBox : MonoBehaviour
 {
     [SerializeField] private GameObject filler;
 
-    private bool ready = false;
-
-    public void ToggleReady()
+    public void SetReady(bool ready)
     {
-        ready = !ready;
         filler.SetActive(ready);
     }
 }
