@@ -1,4 +1,5 @@
 using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,10 @@ public class LobbyManager : NetworkBehaviour
     public void UpdateUIClient(NetworkRoomPlayerLobby roomPlayerLobby)
     {
         Debug.Log("CLient caller icitte!");
-        (FindObjectOfType<PlayerGridManager>()).AddRow(roomPlayerLobby);
+    }
+
+    public void StartGame()
+    {
+        
     }
 }

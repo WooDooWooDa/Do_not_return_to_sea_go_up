@@ -8,13 +8,12 @@ public class LobbyGridRow : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private CheckBox readyCheckBox;
 
+    public int index;
+
     public void SetName(string nameValue, int playerIndex)
     {
         nameText.text = "P" + playerIndex + " : " +  nameValue;
+        index = playerIndex;
     }
 
-    public void ToggleReady()
-    {
-        readyCheckBox.ToggleReady();
-    }
 }

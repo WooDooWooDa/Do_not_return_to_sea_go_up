@@ -4,66 +4,47 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class NetworkManagerLobby : NetworkManager
+public class NetworkManagerLobby : NetworkRoomManager
 {
-    [SerializeField] string menuScene = "";
-
     [Header("Room")]
-    [SerializeField] private NetworkRoomPlayerLobby roomPlayerPrefab = null;
     [SerializeField] private LobbyManager lobbyManager;
 
-    public static event Action OnClientConnected;
-    public static event Action OnClientDisconnected;
+    private bool _showStartButton;
 
-    public override void OnStartServer() => spawnPrefabs = Resources.LoadAll<GameObject>("SpawnablePrefabs").ToList();
-
-    public override void OnStartClient()
+    public override void OnRoomServerSceneChanged(string sceneName)
     {
-        var spawnablePrebabs = Resources.LoadAll<GameObject>("SpawnablePrefabs");
-        foreach (var prefab in spawnablePrebabs)
+        if (sceneName == GameplayScene)
         {
-            NetworkClient.RegisterPrefab(prefab);
+            lobbyManager.StartGame();
         }
     }
 
-    public override void OnClientConnect(NetworkConnection conn)
+    public override bool OnRoomServerSceneLoadedForPlayer(NetworkConnection conn, GameObject roomPlayer, GameObject gamePlayer)
     {
-        base.OnClientConnect(conn);
-
-        OnClientConnected?.Invoke();
+        // TODO:  Pass data from RoomPlayer to GamePlayer object - either by public properties or using a Component
+        //PlayerScore playerScore = gamePlayer.GetComponent<PlayerScore>();
+        //playerScore.index = roomPlayer.GetComponent<NetworkRoomPlayer>().index; 
+        return true;
     }
 
-    public override void OnClientDisconnect(NetworkConnection conn)
+    public override void OnRoomServerPlayersReady()
     {
-        base.OnClientDisconnect(conn);
-
-        OnClientDisconnected?.Invoke();
+    #if UNITY_SERVER
+            base.OnRoomServerPlayersReady();
+    #else
+            _showStartButton = true;
+    #endif
     }
 
-    public override void OnServerConnect(NetworkConnection conn)
+    public override void OnGUI()
     {
-        if (numPlayers >= maxConnections)
-        {
-            conn.Disconnect();
-            return;
-        }
-        if (SceneManager.GetActiveScene().name != menuScene)
-        {
-            conn.Disconnect();
-            return;
-        }
-    }
+        base.OnGUI();
 
-    [Server]
-    public override void OnServerAddPlayer(NetworkConnection conn)
-    {
-        if (SceneManager.GetActiveScene().name == menuScene)
+        if (allPlayersReady && _showStartButton && GUI.Button(new Rect(150, 300, 120, 20), "START GAME"))
         {
-            NetworkRoomPlayerLobby roomPlayerLobby = Instantiate(roomPlayerPrefab);
-            roomPlayerLobby.PlayerName = PlayerPrefs.GetString(PlayerNameInput.NAME_KEY);
-            NetworkServer.AddPlayerForConnection(conn, roomPlayerLobby.gameObject);
-            
-            lobbyManager.UpdateUIClient(roomPlayerLobby);
+            _showStartButton = false;
+
+            ServerChangeScene(GameplayScene);
         }
     }
 

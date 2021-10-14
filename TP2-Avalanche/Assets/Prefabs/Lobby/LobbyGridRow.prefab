@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3d2da92a0e327d46ab5376af42073cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  filler: {fileID: 0}
+  filler: {fileID: 506281062}
 --- !u!1 &1123833926
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,7 +272,7 @@ GameObject:
   - component: {fileID: 3913682527378631188}
   m_Layer: 5
   m_Name: LobbyGridRow
-  m_TagString: Untagged
+  m_TagString: GridRow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

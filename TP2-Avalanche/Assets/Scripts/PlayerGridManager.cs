@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PlayerGridManager : NetworkBehaviour
+public class PlayerGridManager : MonoBehaviour
 {
     [SerializeField] private GameObject lobbyRowPrefab;
     [SerializeField] private TextMeshProUGUI playerCountText;
     private List<LobbyGridRow> playerRows;
 
-    [SyncVar(hook="UpdatePlayerCount")]
+    //[SyncVar(hook="UpdatePlayerCount")]
     private int nbPlayers;
 
     void Start()
@@ -23,14 +23,12 @@ public class PlayerGridManager : NetworkBehaviour
         var playersRoom = FindObjectsOfType<NetworkRoomPlayerLobby>();
     }
 
-    public void AddRow(NetworkRoomPlayerLobby roomPlayer)
+    public void AddRow(LobbyGridRow row, GameObject grid)
     {
-        var playerGrid = GameObject.FindGameObjectWithTag("PlayerGrid");
-        var row = Instantiate(lobbyRowPrefab, playerGrid.transform.position, playerGrid.transform.rotation);
-        playerRows.Add(row.GetComponent<LobbyGridRow>());
-        (row.GetComponent<LobbyGridRow>()).SetName(roomPlayer.PlayerName, 1);
-        row.transform.SetParent(playerGrid.transform);
-        nbPlayers = playerRows.Count;
+        Debug.Log($"Wtf: {row} {grid}");
+        //playerRows.Add(row);
+        row.transform.SetParent(grid.transform);
+        //nbPlayers = playerRows.Count;
     }
 
     private void UpdatePlayerCount(int oldValue, int newValue)

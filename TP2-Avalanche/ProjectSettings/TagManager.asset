@@ -9,6 +9,7 @@ TagManager:
   - Island
   - CubeSpawner
   - PlayerGrid
+  - GridRow
   layers:
   - Default
   - TransparentFX
