@@ -63,7 +63,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        animator.SetBool("isWalling", hit.normal.y < 0.1f);
+        //animator.SetBool("isWalling", hit.normal.y < 0.1f);
     }
 
     private void Jump()

@@ -10,6 +10,9 @@ TagManager:
   - CubeSpawner
   - PlayerGrid
   - GridRow
+  - ReadyButton
+  - PlayerCount
+  - StartGameButton
   layers:
   - Default
   - TransparentFX

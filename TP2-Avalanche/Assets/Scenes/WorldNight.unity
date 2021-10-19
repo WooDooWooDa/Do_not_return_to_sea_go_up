@@ -438,6 +438,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 934679273, guid: 2e9ed15136ec4f94d99644f8969276c5, type: 3}
+      propertyPath: sceneId
+      value: 4275338212
+      objectReference: {fileID: 0}
     - target: {fileID: 3121953090231059110, guid: 2e9ed15136ec4f94d99644f8969276c5, type: 3}
       propertyPath: gameManager
       value: 

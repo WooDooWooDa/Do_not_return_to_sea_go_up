@@ -15,15 +15,13 @@ public class NetworkManagerLobby : NetworkRoomManager
     {
         if (sceneName == GameplayScene)
         {
-            lobbyManager.StartGame();
+            GameObject.Find("GameManager").GetComponent<GameManage>().Initialize();
         }
     }
 
     public override bool OnRoomServerSceneLoadedForPlayer(NetworkConnection conn, GameObject roomPlayer, GameObject gamePlayer)
     {
-        // TODO:  Pass data from RoomPlayer to GamePlayer object - either by public properties or using a Component
-        //PlayerScore playerScore = gamePlayer.GetComponent<PlayerScore>();
-        //playerScore.index = roomPlayer.GetComponent<NetworkRoomPlayer>().index; 
+        gamePlayer.GetComponent<Player>().Name = roomPlayer.GetComponent<NetworkRoomPlayerLobby>().PlayerName;
         return true;
     }
 
@@ -33,17 +31,20 @@ public class NetworkManagerLobby : NetworkRoomManager
             base.OnRoomServerPlayersReady();
     #else
             _showStartButton = true;
+            
     #endif
     }
 
     public override void OnGUI()
     {
         base.OnGUI();
+        var button = GameObject.FindGameObjectWithTag("StartGameButton");
+        if (button != null)
+            button.gameObject.transform.localScale = !allPlayersReady ? new Vector3(0,0,0) : new Vector3(1,1,1);
 
-        if (allPlayersReady && _showStartButton && GUI.Button(new Rect(150, 300, 120, 20), "START GAME"))
+        if (allPlayersReady && _showStartButton && GUI.Button(new Rect(1150, 600, 200, 50), "START GAME"))
         {
             _showStartButton = false;
-
             ServerChangeScene(GameplayScene);
         }
     }

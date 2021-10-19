@@ -6,12 +6,6 @@ using UnityEngine;
 
 public class LobbyManager : NetworkBehaviour
 {
-    [ClientRpc]
-    public void UpdateUIClient(NetworkRoomPlayerLobby roomPlayerLobby)
-    {
-        Debug.Log("CLient caller icitte!");
-    }
-
     public void StartGame()
     {
         

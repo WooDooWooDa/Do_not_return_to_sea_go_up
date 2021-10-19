@@ -1,7 +1,8 @@
 using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,21 +12,10 @@ public class NetworkRoomPlayerLobby : NetworkRoomPlayer
     [SerializeField] private GameObject playerRowPrefab;
 
     [field: SyncVar]
-    private string PlayerName { get; set; }
+    public string PlayerName { get; set; }
 
     private GameObject _grid;
     private Dictionary<int, LobbyGridRow> _lobbyRows;
-
-    // TODO: Remove this. Used for testing state sync between clients.
-    private static readonly string[] Names = {
-        "The Legend Jay",
-        "Jordy",
-        "Little Bobby",
-        "Jacked Sam",
-        "Lil Josh",
-        "Big Tom",
-        "Pikapika"
-    };
 
     public override void OnClientEnterRoom()
     {
@@ -41,6 +31,8 @@ public class NetworkRoomPlayerLobby : NetworkRoomPlayer
     public override void OnStartLocalPlayer()
     {
         PlayerName = PlayerPrefs.GetString(PlayerNameInput.NAME_KEY);
+        Button readyButton = GameObject.FindGameObjectWithTag("ReadyButton").GetComponent<Button>();
+        readyButton.onClick.AddListener(buttonClick);
         CmdJoinAsNewPlayer(PlayerName);
     }
 
@@ -49,7 +41,6 @@ public class NetworkRoomPlayerLobby : NetworkRoomPlayer
         var room = NetworkManager.singleton as NetworkRoomManager;
         if (!room || !NetworkManager.IsSceneActive(room.RoomScene)) return;
         RenderPlayerInformation();
-        RenderLocalPlayerInformation();
     }
 
     [Command]
@@ -66,11 +57,8 @@ public class NetworkRoomPlayerLobby : NetworkRoomPlayer
     }
 
     [Command]
-    private void CmdUpdatePlayerState(int playerIndex, bool readyState, string playerName)
+    private void CmdUpdatePlayerState(int playerIndex, bool readyState)
     {
-        PlayerName = playerName;
-
-        // TODO: See RpcUpdateClientUi TODO. Is the CmdChangeReadyState required or should we just do readyToBegin = readyState?
         readyToBegin = readyState;
         NetworkRoomManager room = NetworkManager.singleton as NetworkRoomManager;
         if (room != null)
@@ -78,19 +66,17 @@ public class NetworkRoomPlayerLobby : NetworkRoomPlayer
             room.ReadyStatusChanged();
         }
 
-        RpcUpdateClientUi(playerIndex, playerName, readyState);
+        RpcUpdateClientUi(playerIndex, readyState);
     }
 
     [ClientRpc]
-    private void RpcUpdateClientUi(int playerIndex, string newName, bool newReadyState)
+    private void RpcUpdateClientUi(int playerIndex, bool newReadyState)
     {
         // TODO: Not exactly sure why the RPC needs these lines? SyncVar should sync them all together?
-        PlayerName = newName;
         readyToBegin = newReadyState;
 
         if (!_lobbyRows.TryGetValue(playerIndex, out var lobbyRow)) return;
 
-        lobbyRow.SetIndexAndName(index, newName);
         lobbyRow.SetReadyFlag(readyToBegin);
     }
 
@@ -116,26 +102,17 @@ public class NetworkRoomPlayerLobby : NetworkRoomPlayer
 
         currentPlayerRow.SetIndexAndName(index, PlayerName);
         currentPlayerRow.SetReadyFlag(readyToBegin);
+        var room = NetworkManager.singleton as NetworkRoomManager;
+        TextMeshProUGUI count = GameObject.FindGameObjectWithTag("PlayerCount").GetComponentInChildren<TextMeshProUGUI>();
+        count.text = room.numPlayers + " / 4 players";
     }
 
-    private void RenderLocalPlayerInformation()
+    private void buttonClick()
     {
         if (!NetworkClient.active || !isLocalPlayer) return;
 
-        if (readyToBegin)
-        {
-            if (GUILayout.Button("Cancel"))
-            {
-                var randomName = Names[Random.Range(0, Names.Length - 1)];
-                CmdUpdatePlayerState(index, false, randomName);
-            }
-        } else
-        {
-            if (GUILayout.Button("Ready"))
-            {
-                var randomName = Names[Random.Range(0, Names.Length - 1)];
-                CmdUpdatePlayerState(index, true, randomName);
-            }
-        }
+        CmdUpdatePlayerState(index, !readyToBegin);
+        TextMeshProUGUI readyText = GameObject.FindGameObjectWithTag("ReadyButton").GetComponentInChildren<TextMeshProUGUI>();
+        readyText.text = readyToBegin ? "Cancel" : "Ready up!";
     }
 }

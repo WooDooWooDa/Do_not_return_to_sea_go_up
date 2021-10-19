@@ -4,11 +4,12 @@ public class Player : MonoBehaviour
 {
     private float maxHeigth;
 
+    public string Name { get; set; }
+
     void Start()
     {
         SetPlayerColor(new Color(0.9f, 0, 0, 1));
     }
-
 
     void Update()
     {

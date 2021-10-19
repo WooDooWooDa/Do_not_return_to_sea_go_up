@@ -11,7 +11,12 @@ public class GameManage : NetworkBehaviour
 
     void Awake()
     {
-        //StartCoroutine(Initialize());
+        Initialize();
+    }
+
+    private void Start()
+    {
+        GetPlayers();
     }
 
     public void Initialize()
