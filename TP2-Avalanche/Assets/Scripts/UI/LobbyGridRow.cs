@@ -12,7 +12,7 @@ public class LobbyGridRow : MonoBehaviour
 
     public void SetIndexAndName(int playerIndex, string nameValue)
     {
-        nameText.text = $"P{playerIndex} : {nameValue}";
+        nameText.text = $"P{playerIndex + 1} : {nameValue}";
         Index = playerIndex + 1;
     }
 

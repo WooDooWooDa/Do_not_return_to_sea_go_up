@@ -1,22 +1,23 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CubeSpawner : MonoBehaviour
+public class CubeSpawner : NetworkBehaviour
 {
     [SerializeField] Collider spawnPlane;
     [SerializeField] List<GameObject> cubes;
     [SerializeField] GameManage gameManager;
-    private List<Player> players;
+    [SerializeField] List<Player> players;
 
     private float spawnRate = 1f;
     private float timer = 0f;
     private float minHeight = 25f;
-    
-    void Start()
+
+    public void Initialize(GameManage gameManager)
     {
+        this.gameManager = gameManager;
         timer = spawnRate;
-        players = gameManager.GetPlayerList();
         SetWidth();
         transform.position = new Vector3(transform.position.x, minHeight, transform.position.z);
     }
@@ -39,16 +40,22 @@ public class CubeSpawner : MonoBehaviour
 
     private void UpdatePosition()
     {
+        if (players.Count == 0) {
+            players = gameManager.GetPlayerList();
+        }
         foreach (Player player in players) {
-            if (transform.position.y < player.GetMaxHeigth() + minHeight)
-                transform.position = new Vector3(transform.position.x, player.GetMaxHeigth() + minHeight, transform.position.z);
+            var score = player.GetComponent<PlayerScore>();
+            if (transform.position.y < score.GetMaxHeigth() + minHeight)
+                transform.position = new Vector3(transform.position.x, score.GetMaxHeigth() + minHeight, transform.position.z);
         }
     }
 
     void SpawnCube()
     {
-        GameObject cube = Instantiate(cubes[Random.Range(0, cubes.Count)]);
-        cube.transform.position = RandomPointInBounds(spawnPlane.bounds);
+        if (!NetworkServer.active) return;
+        NetworkServer.Spawn(Object.Instantiate(cubes[Random.Range(0, cubes.Count)], RandomPointInBounds(spawnPlane.bounds), Quaternion.identity));
+        //GameObject cube = Instantiate(cubes[Random.Range(0, cubes.Count)]);
+        //cube.transform.position = RandomPointInBounds(spawnPlane.bounds);
     }
 
     private static Vector3 RandomPointInBounds(Bounds bounds)

@@ -8,14 +8,14 @@ public class Teleport : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
+        var player = collision.gameObject;
         if (collision.tag == "Player")
         {
-            var xDecal = collision.transform.position.x < 0 ? -1 : 1;
+            var xDecal = player.transform.position.x < 0 ? -1 : 1;
             Debug.Log("OLD POS" + collision.transform.position);
-            var newPos = new Vector3(otherBound.transform.position.x + xDecal, collision.transform.position.y, 0);
+            var newPos = new Vector3(otherBound.transform.position.x + xDecal, player.transform.position.y, 0);
             Debug.Log("NEW POS : " + newPos);
-            collision.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(5 * xDecal, 0, 0), ForceMode.Impulse);
-            collision.transform.position = newPos;
+            player.transform.position = newPos;
         }
     }
 }

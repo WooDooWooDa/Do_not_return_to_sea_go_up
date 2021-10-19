@@ -1,8 +1,9 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowPlayer : MonoBehaviour
+public class FollowPlayer : NetworkBehaviour
 {
     public GameObject AssociatedPlayer { get; set; }
 
@@ -13,7 +14,7 @@ public class FollowPlayer : MonoBehaviour
         if (AssociatedPlayer == null)
         {
             Destroy(gameObject);
-            //Follow leader
+            //reasignAssociatedPlayer to leader
         }
         transform.position = AssociatedPlayer.transform.position + basePos;
     }

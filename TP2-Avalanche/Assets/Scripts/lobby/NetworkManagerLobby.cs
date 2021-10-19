@@ -3,19 +3,25 @@ using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class NetworkManagerLobby : NetworkRoomManager
 {
     [Header("Room")]
-    [SerializeField] private LobbyManager lobbyManager;
+    [SerializeField] private GameManage gameManager;
 
     private bool _showStartButton;
+    private GameObject startButton = null; 
 
     public override void OnRoomServerSceneChanged(string sceneName)
     {
+        if (sceneName == onlineScene)
+        {
+            AddStartGameListener();
+        }
         if (sceneName == GameplayScene)
         {
-            GameObject.Find("GameManager").GetComponent<GameManage>().Initialize();
+            gameManager.Initialize(numPlayers);
         }
     }
 
@@ -38,15 +44,26 @@ public class NetworkManagerLobby : NetworkRoomManager
     public override void OnGUI()
     {
         base.OnGUI();
-        var button = GameObject.FindGameObjectWithTag("StartGameButton");
-        if (button != null)
-            button.gameObject.transform.localScale = !allPlayersReady ? new Vector3(0,0,0) : new Vector3(1,1,1);
 
-        if (allPlayersReady && _showStartButton && GUI.Button(new Rect(1150, 600, 200, 50), "START GAME"))
+        if (startButton != null)
+            startButton.gameObject.transform.localScale = !allPlayersReady ? new Vector3(0, 0, 0) : new Vector3(1, 1, 1);
+
+        if (allPlayersReady && _showStartButton)
         {
             _showStartButton = false;
-            ServerChangeScene(GameplayScene);
         }
+    }
+
+    private void StartGame()
+    {
+        _showStartButton = false;
+        ServerChangeScene(GameplayScene);
+    }
+
+    private void AddStartGameListener()
+    {
+        startButton = GameObject.FindGameObjectWithTag("StartGameButton");
+        startButton.GetComponent<Button>().onClick.AddListener(StartGame);
     }
 
 }
