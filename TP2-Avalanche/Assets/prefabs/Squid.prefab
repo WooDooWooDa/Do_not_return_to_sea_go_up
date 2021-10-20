@@ -265,6 +265,7 @@ GameObject:
   - component: {fileID: -7755126161342516909}
   - component: {fileID: 7311171223741603502}
   - component: {fileID: 3062012079632262033}
+  - component: {fileID: 4132284794965472782}
   m_Layer: 0
   m_Name: Squid
   m_TagString: Player
@@ -317,9 +318,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   controller: {fileID: 1151955995}
-  speed: 8
   gravity: -19.62
-  jumpHeight: 2
+  baseSpeed: 12
+  baseJumpHeight: 2
+  baseFallingSpeed: -8
   groundMask:
     serializedVersion: 2
     m_Bits: 8
@@ -506,6 +508,19 @@ MonoBehaviour:
   syncAngularVelocity: 1
   clearAngularVelocity: 0
   angularVelocitySensitivity: 0.1
+--- !u!114 &4132284794965472782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2763346651648705357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8e909c4bc913a042921b8104e423b3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentItem: {fileID: 0}
 --- !u!1 &2949165082562076405
 GameObject:
   m_ObjectHideFlags: 0

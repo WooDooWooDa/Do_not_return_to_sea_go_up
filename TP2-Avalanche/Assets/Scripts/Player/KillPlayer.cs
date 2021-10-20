@@ -13,9 +13,11 @@ public class KillPlayer : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (playerMovement.IsGrounded && collision.relativeVelocity.y < 0) //kill player if crushed
+        if (playerMovement.IsGrounded && false) //kill player if crushed
         {
-            GetComponent<Player>().Kill();
+            Debug.Log("Crushed");
+            Debug.Log("KILL PLAYER");
+            GetComponent<PlayerHealth>().TakeDamage(999);
         }
     }
 
@@ -23,7 +25,9 @@ public class KillPlayer : MonoBehaviour
     {
         if (collision.tag == "Water") // kill if in water
         {
-            GetComponent<Player>().Kill();
+            Debug.Log("Water");
+            Debug.Log("KILL PLAYER");
+            GetComponent<PlayerHealth>().TakeDamage(999);
         }
     }
 }

@@ -1,4 +1,5 @@
 using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,7 +28,7 @@ public class PlayerHealth : NetworkBehaviour
     }
 
     [Server]
-    public void heal(float amount)
+    public void Heal(float amount)
     {
         currentHealth += amount;
         if (currentHealth > startingHealth)
@@ -44,6 +45,11 @@ public class PlayerHealth : NetworkBehaviour
         {
             RpcOnDeath();
         }
+    }
+
+    public void ApplyHealthRegen()
+    {
+        Heal(20);
     }
 
     public void OnHealthChange(float oldValue, float newValue)

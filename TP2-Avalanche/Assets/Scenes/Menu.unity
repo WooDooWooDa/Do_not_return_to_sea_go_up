@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2790,17 +2790,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ff49e0dc13d65f48ba36f10146b298f, type: 3}
---- !u!114 &617982379 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1203441230428637475, guid: 1ff49e0dc13d65f48ba36f10146b298f, type: 3}
-  m_PrefabInstance: {fileID: 617982378}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a7d620dd3fd5a14089479c65cb590f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &617982380 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5916697224372923486, guid: 1ff49e0dc13d65f48ba36f10146b298f, type: 3}
@@ -4019,7 +4008,7 @@ MonoBehaviour:
   _allPlayersReady: 0
   roomSlots: []
   clientIndex: 0
-  gameManager: {fileID: 617982379}
+  lobbyManager: {fileID: 0}
 --- !u!4 &837884987
 Transform:
   m_ObjectHideFlags: 0
@@ -6224,7 +6213,7 @@ GameObject:
   m_Layer: 0
   m_Name: CubeSpawner
   m_TagString: Untagged
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -7476,6 +7465,14 @@ PrefabInstance:
     - target: {fileID: 4263922822445002727, guid: 3cdafb3c2f54d434894928d72d282874, type: 3}
       propertyPath: m_Name
       value: Bush_01 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4263922822445002727, guid: 3cdafb3c2f54d434894928d72d282874, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4263922822445002727, guid: 3cdafb3c2f54d434894928d72d282874, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4263922822445036487, guid: 3cdafb3c2f54d434894928d72d282874, type: 3}
       propertyPath: m_RootOrder
@@ -10154,7 +10151,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2763346652506444681}
   m_LocalRotation: {x: 0.24679123, y: -0.5992538, z: 0.1557844, w: 0.74546653}
-  m_LocalPosition: {x: 26.140648, y: 12.591091, z: -49.88309}
+  m_LocalPosition: {x: 25.83, y: 12.57, z: -49.81}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children:
   - {fileID: 5882374967172192685}

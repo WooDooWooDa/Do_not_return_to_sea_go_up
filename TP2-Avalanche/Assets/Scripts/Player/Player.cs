@@ -11,7 +11,8 @@ public class Player : MonoBehaviour
 
     public void Kill()
     {
-        Debug.Log("Kill Player");
+        Debug.Log("KILL PLAYER");
+        GetComponent<PlayerHealth>().TakeDamage(999);
     }
 
     public void SetPlayerColor(Color color)
