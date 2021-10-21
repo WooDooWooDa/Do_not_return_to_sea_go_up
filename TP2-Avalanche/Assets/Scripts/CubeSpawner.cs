@@ -9,15 +9,17 @@ public class CubeSpawner : NetworkBehaviour
     [SerializeField] List<GameObject> cubes;
     [SerializeField] GameManage gameManager;
     [SerializeField] List<Player> players;
+    [SerializeField] List<GameObject> items;
 
-    private float spawnRate = 1f;
-    private float timer = 0f;
+    private float cubeSpawnRate = 1f;
+    private float itemSpawnRate = 10f;
+    private float cubeTimer = 0f;
+    private float itemTimer = 0f;
     private float minHeight = 25f;
 
     public void Initialize(GameManage gameManager)
     {
         this.gameManager = gameManager;
-        timer = spawnRate;
         SetWidth();
         transform.position = new Vector3(transform.position.x, minHeight, transform.position.z);
     }
@@ -25,11 +27,15 @@ public class CubeSpawner : NetworkBehaviour
     void Update()
     {
         UpdatePosition();
-        timer -= Time.deltaTime;
-        if (timer <= 0f)
-        {
-            SpawnCube();
-            timer = spawnRate + Random.Range(-0.2f, 0.5f);
+        cubeTimer += Time.deltaTime;
+        itemTimer += Time.deltaTime;
+        if (itemTimer >= itemSpawnRate) {
+            Spawn(items);
+            itemTimer = 0f;
+        }
+        if (cubeTimer >= cubeSpawnRate) {
+            Spawn(cubes);
+            cubeTimer = 0 + Random.Range(-0.2f, 0.5f);
         }
     }
 
@@ -50,12 +56,10 @@ public class CubeSpawner : NetworkBehaviour
         }
     }
 
-    void SpawnCube()
+    private void Spawn(List<GameObject> list)
     {
         if (!NetworkServer.active) return;
-        NetworkServer.Spawn(Object.Instantiate(cubes[Random.Range(0, cubes.Count)], RandomPointInBounds(spawnPlane.bounds), Quaternion.identity));
-        //GameObject cube = Instantiate(cubes[Random.Range(0, cubes.Count)]);
-        //cube.transform.position = RandomPointInBounds(spawnPlane.bounds);
+        NetworkServer.Spawn(Object.Instantiate(list[Random.Range(0, list.Count)], RandomPointInBounds(spawnPlane.bounds), Quaternion.identity));
     }
 
     private static Vector3 RandomPointInBounds(Bounds bounds)

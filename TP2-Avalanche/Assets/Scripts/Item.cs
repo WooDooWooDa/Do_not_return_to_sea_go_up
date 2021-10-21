@@ -1,10 +1,13 @@
+using Mirror;
 using UnityEngine;
 
-public class Item : MonoBehaviour
+public class Item : NetworkBehaviour
 {
     [SerializeField] Effect effect;
+    [SerializeField] ParticleSystem particles;
 
     private float duration;
+    private float timeOnFloor = 0;
     private bool hasTouchedGround = false;
 
     void Start()
@@ -12,11 +15,19 @@ public class Item : MonoBehaviour
         if (effect == Effect.HealthRegen)
             duration = 3;
         duration = Random.Range(5, 8);
+        if (Random.Range(1, 5) == 5) {
+            particles.GetComponent<ParticleSystemRenderer>().renderMode = ParticleSystemRenderMode.Stretch;
+            duration *= 2;
+        }
     }
 
-    public string GetName()
+    private void Update()
     {
-        return effect.ToString(); //todo override for friendly string
+        if (hasTouchedGround && timeOnFloor >= 5) {
+            CmdDestroyItem(gameObject);
+        } else if (hasTouchedGround) {
+            timeOnFloor += Time.deltaTime;
+        }
     }
 
     public float GetDuration()
@@ -29,22 +40,28 @@ public class Item : MonoBehaviour
         return effect;
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        if ((collision.gameObject.tag == "Island" || collision.gameObject.tag == "MenuCubes") && !hasTouchedGround) {
-            Debug.Log("Initiate destroy...");
+        if (collision.gameObject.CompareTag("Island") || collision.gameObject.CompareTag("MenuCubes")) {
             hasTouchedGround = true;
-            Destroy(gameObject, 5);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             PlayerItem playerItem = other.gameObject.GetComponent<PlayerItem>();
-            playerItem.CollectItem(gameObject.GetComponent<Item>()); //factory maybe?
-            Destroy(gameObject);
+            var item = gameObject.GetComponent<Item>();
+            playerItem.CollectItem(item.GetEffect(), item.GetDuration());
+            CmdDestroyItem(gameObject);
         }
     }
+
+    [Command(requiresAuthority = false)]
+    public void CmdDestroyItem(GameObject item)
+    {
+        NetworkServer.Destroy(item);
+    }
+
 }

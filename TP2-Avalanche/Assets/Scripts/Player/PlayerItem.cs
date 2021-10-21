@@ -5,37 +5,43 @@ using UnityEngine;
 
 public class PlayerItem : MonoBehaviour
 {
-    [SerializeField] private Item currentItem;
+    [SerializeField] private Effect activeEffect;
+    [SerializeField] private float effectDuration;
 
     private float elapsed = 0f;
 
     public string GetItemName()
     {
-        return currentItem.GetName();
+        return activeEffect.ToString();
     }
 
-    public void CollectItem(Item item)
+    public string GetTimeLeft()
     {
-        Debug.Log("Collected : " + item.GetName());
-        currentItem = item;
+        return elapsed.ToString("0");
+    }
+
+    public void CollectItem(Effect itemEffect, float duration)
+    {
+        activeEffect = itemEffect;
+        effectDuration = duration;
     }
 
     private void Update()
     {
-        if (currentItem != null && elapsed <= currentItem.GetDuration()) { // item is always null
+        if (activeEffect != Effect.None && elapsed <= effectDuration) { 
             elapsed += Time.deltaTime;
             if (elapsed >= 1f) {
                 elapsed %= 1f;
-                ApplyEffect(currentItem.GetEffect());
+                ApplyEffect();
             }
         } else {
             StopCurrentEffect();
         }
     }
 
-    private void ApplyEffect(Effect effect)
+    private void ApplyEffect()
     {
-        switch (effect) {
+        switch (activeEffect) {
             case Effect.JumpBoost: gameObject.GetComponent<PlayerMovement>().ApplyJumpBoost(); break;
             case Effect.SpeedBoost: gameObject.GetComponent<PlayerMovement>().ApplySpeedBoost(); break;
             case Effect.FeatherFalling: gameObject.GetComponent<PlayerMovement>().ApplyFeatherFalling(); break;
@@ -46,7 +52,8 @@ public class PlayerItem : MonoBehaviour
     private void StopCurrentEffect()
     {
         elapsed = 0f;
-        currentItem = null;
+        effectDuration = 0f;
+        activeEffect = Effect.None;
         gameObject.GetComponent<PlayerMovement>().ResetToBase();
     }
 }

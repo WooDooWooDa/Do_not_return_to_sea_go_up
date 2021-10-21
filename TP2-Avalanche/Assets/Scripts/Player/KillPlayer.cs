@@ -23,7 +23,7 @@ public class KillPlayer : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision) 
     {
-        if (collision.tag == "Water") // kill if in water
+        if (collision.tag == "Water" && gameObject.transform.position.y < collision.transform.position.y + 2) // kill if in water
         {
             Debug.Log("Water");
             Debug.Log("KILL PLAYER");

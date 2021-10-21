@@ -1049,7 +1049,7 @@ namespace Mirror
 
         /// <summary>Spawns an object and also assigns Client Authority to the specified client.</summary>
         // This is the same as calling NetworkIdentity.AssignClientAuthority on the spawned object.
-        public static void Spawn(GameObject obj, GameObject ownerPlayer)
+        public static void Spawn(GameObject obj, Vector3 vector3, GameObject ownerPlayer)
         {
             NetworkIdentity identity = ownerPlayer.GetComponent<NetworkIdentity>();
             if (identity == null)

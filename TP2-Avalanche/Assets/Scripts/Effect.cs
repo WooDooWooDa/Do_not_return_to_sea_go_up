@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum Effect
 {
+    None,
     JumpBoost,
     SpeedBoost,
     FeatherFalling,
