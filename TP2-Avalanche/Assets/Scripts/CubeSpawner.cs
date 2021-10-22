@@ -8,7 +8,7 @@ public class CubeSpawner : NetworkBehaviour
     [SerializeField] Collider spawnPlane;
     [SerializeField] List<GameObject> cubes;
     [SerializeField] GameManage gameManager;
-    [SerializeField] List<Player> players;
+    [SerializeField] List<PlayerScore> players;
     [SerializeField] List<GameObject> items;
 
     private float cubeSpawnRate = 1f;
@@ -29,13 +29,16 @@ public class CubeSpawner : NetworkBehaviour
         UpdatePosition();
         cubeTimer += Time.deltaTime;
         itemTimer += Time.deltaTime;
+
+        if (cubeTimer >= cubeSpawnRate)
+        {
+            Spawn(cubes);
+            cubeTimer = 0f + Random.Range(-0.2f, 0.2f);
+        }
+
         if (itemTimer >= itemSpawnRate) {
             Spawn(items);
             itemTimer = 0f;
-        }
-        if (cubeTimer >= cubeSpawnRate) {
-            Spawn(cubes);
-            cubeTimer = 0 + Random.Range(-0.2f, 0.5f);
         }
     }
 
@@ -49,10 +52,9 @@ public class CubeSpawner : NetworkBehaviour
         if (players.Count == 0) {
             players = gameManager.GetPlayerList();
         }
-        foreach (Player player in players) {
-            var score = player.GetComponent<PlayerScore>();
-            if (transform.position.y < score.GetMaxHeigth() + minHeight)
-                transform.position = new Vector3(transform.position.x, score.GetMaxHeigth() + minHeight, transform.position.z);
+        foreach (PlayerScore player in players) {
+            if (transform.position.y < player.GetMaxHeigth() + minHeight)
+                transform.position = new Vector3(transform.position.x, player.GetMaxHeigth() + minHeight, transform.position.z);
         }
     }
 

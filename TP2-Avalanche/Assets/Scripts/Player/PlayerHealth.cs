@@ -40,6 +40,9 @@ public class PlayerHealth : NetworkBehaviour
     [Server]
     public void TakeDamage(float dmg)
     {
+        if (dmg < 0)
+            dmg = -dmg;
+        Debug.Log("dmg : " + dmg);
         currentHealth -= dmg;
         if (currentHealth <= 0 && alive)
         {

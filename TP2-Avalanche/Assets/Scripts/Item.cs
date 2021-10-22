@@ -12,9 +12,9 @@ public class Item : NetworkBehaviour
 
     void Start()
     {
+        duration = Random.Range(5, 8);
         if (effect == Effect.HealthRegen)
             duration = 3;
-        duration = Random.Range(5, 8);
         if (Random.Range(1, 5) == 5) {
             particles.GetComponent<ParticleSystemRenderer>().renderMode = ParticleSystemRenderMode.Stretch;
             duration *= 2;

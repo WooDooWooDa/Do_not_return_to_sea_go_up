@@ -4843,7 +4843,7 @@ Light:
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_Intensity: 1
   m_Range: 25
-  m_SpotAngle: 80
+  m_SpotAngle: 100
   m_InnerSpotAngle: 1
   m_CookieSize: 10
   m_Shadows:
@@ -4958,7 +4958,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.18
+  m_Radius: 0.4
   m_Center: {x: 0, y: 0.06, z: 0}
 --- !u!65 &1785562461
 BoxCollider:

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerScore : MonoBehaviour
 {
+    public int Position { get; set; }
+
     private float maxHeigth = 0;
 
     void Update()

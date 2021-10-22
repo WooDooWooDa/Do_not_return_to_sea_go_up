@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameManage : NetworkBehaviour
 {
-    [SerializeField] List<Player> players;
+    [SerializeField] List<PlayerScore> players;
     [SerializeField] GameObject env;
     [SerializeField] GameObject spawnPointPrefab;
     [SerializeField] CubeSpawner cubeSpawner;
@@ -21,7 +21,7 @@ public class GameManage : NetworkBehaviour
         StartSpawningCubes();
     }
 
-    public List<Player> GetPlayerList()
+    public List<PlayerScore> GetPlayerList()
     {
         if (players.Count == 0) {
             GetPlayers();
@@ -44,7 +44,7 @@ public class GameManage : NetworkBehaviour
     {
         float islandLength = nbConnPlayers > 1 ? (nbConnPlayers * 0.5f) : 0.5f;
         Debug.Log("Island Size : " + islandLength);
-        GameObject.FindGameObjectWithTag("Island").transform.localScale = new Vector3(islandLength, 1, 1);
+        GameObject.FindGameObjectWithTag("Island").transform.localScale = new Vector3(islandLength, 0.2f, 1);
         SpawnEnv();
         SpawnEnvRpc();
     }
@@ -96,9 +96,9 @@ public class GameManage : NetworkBehaviour
         var playersObj = GameObject.FindGameObjectsWithTag("Player");
         foreach (var obj in playersObj)
         {
-            if (obj != null && !players.Contains(obj.GetComponent<Player>()))
+            if (obj != null && !players.Contains(obj.GetComponent<PlayerScore>()))
             {
-                players.Add(obj.GetComponent<Player>());
+                players.Add(obj.GetComponent<PlayerScore>());
             }
         }
     }

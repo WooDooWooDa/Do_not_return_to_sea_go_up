@@ -288,6 +288,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ocean
       objectReference: {fileID: 0}
+    - target: {fileID: 8976378836404544039, guid: 266185ccd6fd0124bb1501e472a6b836, type: 3}
+      propertyPath: waveHeight
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 8976378836404544040, guid: 266185ccd6fd0124bb1501e472a6b836, type: 3}
       propertyPath: m_RootOrder
       value: 3
