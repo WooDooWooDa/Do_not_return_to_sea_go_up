@@ -287,7 +287,6 @@ Transform:
   - {fileID: 5882374967522412905}
   - {fileID: 6425802226538772447}
   - {fileID: 1565129612}
-  - {fileID: 4039583913309353233}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -303,6 +302,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d61a5391a5071f498e7fa513ecf4dca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &1151955996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,6 +394,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8dc72ca563cff44696222622a27983c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  Position: 0
 --- !u!143 &1151955995
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1008,13 +1012,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6723281306574425513}
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0.50000006, y: 0.49999997, z: 0.50000006, w: 0.49999997}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.9999986, y: 5, z: 4.9999986}
+  m_LocalScale: {x: 0.066666655, y: 0.050000004, z: 0.066666655}
   m_Children:
   - {fileID: 1471484364349489667}
-  m_Father: {fileID: 3247853509302360567}
-  m_RootOrder: 3
+  m_Father: {fileID: 6425802226538772447}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1123,7 +1127,7 @@ GameObject:
   - component: {fileID: 6425802226538772447}
   - component: {fileID: 6793425894150528834}
   m_Layer: 0
-  m_Name: Squid
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1139,7 +1143,8 @@ Transform:
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 75, y: 75, z: 100}
-  m_Children: []
+  m_Children:
+  - {fileID: 4039583913309353233}
   m_Father: {fileID: 3247853509302360567}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

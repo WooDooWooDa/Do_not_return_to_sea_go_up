@@ -12,7 +12,7 @@ public class CubeSpawner : NetworkBehaviour
     [SerializeField] List<GameObject> items;
 
     private float cubeSpawnRate = 1f;
-    private float itemSpawnRate = 10f;
+    private float itemSpawnRate = 3f;
     private float cubeTimer = 0f;
     private float itemTimer = 0f;
     private float minHeight = 25f;
@@ -26,6 +26,7 @@ public class CubeSpawner : NetworkBehaviour
 
     void Update()
     {
+        if (!isServer) return;
         UpdatePosition();
         cubeTimer += Time.deltaTime;
         itemTimer += Time.deltaTime;

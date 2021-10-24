@@ -1,11 +1,14 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerScore : MonoBehaviour
+public class PlayerScore : NetworkBehaviour
 {
-    public int Position { get; set; }
+    [SyncVar]
+    public int Position = 0;
 
+    [SyncVar]
     private float maxHeigth = 0;
 
     void Update()

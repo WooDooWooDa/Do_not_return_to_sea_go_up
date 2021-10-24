@@ -27,6 +27,11 @@ public class PlayerHealth : NetworkBehaviour
         alive = true;
     }
 
+    public bool IsAlive()
+    {
+        return alive;
+    }
+
     [Server]
     public void Heal(float amount)
     {
@@ -42,11 +47,13 @@ public class PlayerHealth : NetworkBehaviour
     {
         if (dmg < 0)
             dmg = -dmg;
-        Debug.Log("dmg : " + dmg);
         currentHealth -= dmg;
         if (currentHealth <= 0 && alive)
         {
-            RpcOnDeath();
+            alive = false;
+            Transform body = gameObject.transform.Find("Body");
+            body.gameObject.SetActive(false);
+            OnDeath(gameObject.GetComponent<NetworkIdentity>().connectionToClient);
         }
     }
 
@@ -66,10 +73,12 @@ public class PlayerHealth : NetworkBehaviour
         fillImage.color = Color.Lerp(lowHealthColor, fullHealthColor, currentHealth / startingHealth);
     }
 
-    [ClientRpc]
-    private void RpcOnDeath()
-    {
-        alive = false;
-        gameObject.SetActive(false);
+    [TargetRpc]
+    private void OnDeath(NetworkConnection target)
+    {   
+        var camera = gameObject.GetComponent<PlayerCamera>();
+        camera.DeadScreen(gameObject.GetComponent<PlayerScore>().GetMaxHeigth());
+        camera.Rig().GetComponentInChildren<CameraRig>().FollowLeader();
+        gameObject.GetComponent<PlayerMovement>().ToggleMovement();
     }
 }

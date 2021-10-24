@@ -22,6 +22,6 @@ public class ScoreRow : MonoBehaviour
     public void UpdateScoreAndPos(float score, int pos)
     {
         position.text = pos.ToString();
-        this.score.text = score.ToString("0");
+        this.score.text = score.ToString("0.0");
     }
 }

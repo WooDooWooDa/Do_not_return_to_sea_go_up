@@ -1,8 +1,12 @@
+using Mirror;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : NetworkBehaviour
 {
-    public string Name { get; set; }
+    public string Name { get { return playerName; } set { playerName = value; } }
+
+    [SyncVar]
+    private string playerName;
 
     void Start()
     {

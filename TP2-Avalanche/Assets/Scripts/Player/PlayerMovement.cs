@@ -12,7 +12,6 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] float baseJumpHeight = 2f;
     [SerializeField] float baseFallingSpeed = -10f;
     [SerializeField] LayerMask groundMask;
-
     [SerializeField] LayerMask cubeLayer;
     [SerializeField] Transform groundCheck;
 
@@ -22,6 +21,7 @@ public class PlayerMovement : NetworkBehaviour
     private Vector3 velocity;
     private bool isGrounded;
     private bool isWalling = false;
+    private bool canMove;
 
     private float currentSpeed;
     private float currentJumpHeight;
@@ -51,16 +51,27 @@ public class PlayerMovement : NetworkBehaviour
         currentFallingSpeed = baseFallingSpeed * 0.5f;
     }
 
+    public void ToggleMovement()
+    {
+        canMove = !canMove;
+    }
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         ResetToBase();
+        canMove = true;
     }
 
     void Update()
     {
         if (!isLocalPlayer) return;
+
+        if (!canMove) {
+            velocity.y = 0;
+            return;
+        }
 
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask) || Physics.CheckSphere(groundCheck.position, groundDistance, cubeLayer);
 

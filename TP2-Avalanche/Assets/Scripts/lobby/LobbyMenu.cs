@@ -1,4 +1,5 @@
 using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,13 @@ public class LobbyMenu : MonoBehaviour
 
     public void HostLobby()
     {
-        landingPagePanel.SetActive(false);
-        networkManager.StartHost();
+        try
+        {
+            networkManager.StartHost();
+            landingPagePanel.SetActive(false);
+        } catch (Exception e)
+        {
+            Debug.Log(e);
+        }
     }
 }

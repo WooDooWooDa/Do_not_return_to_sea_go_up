@@ -1,8 +1,9 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KillPlayer : MonoBehaviour
+public class KillPlayer : NetworkBehaviour
 {
     [SerializeField] private LayerMask crusher;
     [SerializeField] private LayerMask cubes;
@@ -14,19 +15,33 @@ public class KillPlayer : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
     }
 
+    private void Update()
+    {
+        if (!isServer) return;
+
+        if (GetComponent<PlayerHealth>().IsAlive() && GameObject.Find("Ocean").transform.position.y - 1 > gameObject.transform.position.y)
+        {
+            Debug.Log("Water");
+            GetComponent<PlayerHealth>().TakeDamage(999);
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
-        if (playerMovement.IsGrounded && (cubes.value & (1 << collision.gameObject.layer)) > 0) //kill player if crushed
+        if (!isServer) return;
+
+        if (playerMovement.IsGrounded && (cubes.value & (1 << collision.gameObject.layer)) > 0 && GetComponent<PlayerHealth>().IsAlive()) //kill player if crushed
         {
             Debug.Log("Crusher");
-            Debug.Log("KILL PLAYER");
-            //GetComponent<PlayerHealth>().TakeDamage(999);
+            GetComponent<PlayerHealth>().TakeDamage(999);
         }
     }
 
     private void OnTriggerEnter(Collider collision) 
     {
-        if ((crusher.value & (1 << collision.gameObject.layer)) > 0 && !collision.GetComponentInParent<Rigidbody>().isKinematic) //dmg player player if crushed
+        if (!isServer) return;
+
+        if ((crusher.value & (1 << collision.gameObject.layer)) > 0 && !collision.GetComponentInParent<Rigidbody>().isKinematic) //dmg player player if crushed but not grounded
         {
             Debug.Log("take damage");
             var dmg = -collision.GetComponentInParent<Rigidbody>().velocity.y;
@@ -35,13 +50,6 @@ public class KillPlayer : MonoBehaviour
             if (dmg >= 100)
                 dmg /= 2;
             GetComponent<PlayerHealth>().TakeDamage(dmg);
-        }
-
-        if (collision.tag == "Water" && gameObject.transform.position.y < collision.transform.position.y + 2) // kill if in water
-        {
-            Debug.Log("Water");
-            Debug.Log("KILL PLAYER");
-            GetComponent<PlayerHealth>().TakeDamage(999);
         }
     }
 }

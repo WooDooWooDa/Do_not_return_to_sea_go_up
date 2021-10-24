@@ -22,6 +22,7 @@ public class NetworkManagerLobby : NetworkRoomManager
         if (sceneName == GameplayScene)
         {
             gameManager.Initialize(numPlayers);
+            gameManager.StartGame();
         }
     }
 

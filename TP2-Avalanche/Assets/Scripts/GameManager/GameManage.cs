@@ -2,6 +2,7 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManage : NetworkBehaviour
 {
@@ -12,21 +13,85 @@ public class GameManage : NetworkBehaviour
 
     private int nbConnPlayers;
 
+    public List<PlayerScore> GetPlayerList()
+    {
+        GetPlayers();
+        return players;
+    }
+
     [Server]
     public void Initialize(int nbPlayers)
     {
         nbConnPlayers = nbPlayers;
-        SetIslandSize();
-        SpawnSpawnPoint();
-        StartSpawningCubes();
-    }
+        if (isServer)
+        {
 
-    public List<PlayerScore> GetPlayerList()
-    {
-        if (players.Count == 0) {
+            SetIslandSize();
+            SpawnSpawnPoint();
+            StartSpawningCubes();
             GetPlayers();
         }
-        return players;
+    }
+
+    [Server]
+    public void StartGame()
+    {
+        if (isServer)
+        {
+            StartCoroutine(GameLoop());
+        }
+    }
+
+    [Server]
+    private IEnumerator GameLoop()
+    {
+        yield return StartCoroutine(RoundStart());
+        yield return StartCoroutine(RoundPlaying());
+        yield return StartCoroutine(RoundEnd());
+
+        NetworkServer.Shutdown();
+        SceneManager.LoadScene("Menu");
+    }
+
+    [Server]
+    private IEnumerator RoundStart()
+    {
+        yield return new WaitForSeconds(1);
+    }
+
+    [Server]
+    private IEnumerator RoundPlaying()
+    {
+        while (OnePlayerAlive())
+        {
+            yield return null;
+        }
+    }
+
+    [Server]
+    private IEnumerator RoundEnd()
+    {
+        PlayerScore winner = FindWinner();
+        if (players.Count == 1) {
+            RpcShowSoloScreen(winner.GetMaxHeigth());
+        } else {
+            RpcShowWinnerScreen(winner.GetComponent<Player>().Name, winner.GetMaxHeigth());
+        }
+
+        yield return new WaitForSeconds(5);
+    }
+
+    [Server]
+    private bool OnePlayerAlive()
+    {
+        foreach (PlayerScore player in players)
+        {
+            if (player.GetComponentInParent<PlayerHealth>().IsAlive())
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public float GetIslandSize()
@@ -34,19 +99,19 @@ public class GameManage : NetworkBehaviour
         return (GameObject.FindGameObjectWithTag("Island")).GetComponent<Renderer>().bounds.size.x;
     }
 
+    [Server]
     private void StartSpawningCubes()
     {
+        if (!isServer) return;
         cubeSpawner = GameObject.Find("CubeSpawner").GetComponent<CubeSpawner>();
         cubeSpawner.Initialize(this);
     }
 
+    [Server]
     private void SetIslandSize()
     {
         float islandLength = nbConnPlayers > 1 ? (nbConnPlayers * 0.5f) : 0.5f;
-        Debug.Log("Island Size : " + islandLength);
-        GameObject.FindGameObjectWithTag("Island").transform.localScale = new Vector3(islandLength, 0.2f, 1);
-        SpawnEnv();
-        SpawnEnvRpc();
+        RpcSpawnEnv(islandLength);
     }
 
     private void SpawnSpawnPoint()
@@ -62,33 +127,33 @@ public class GameManage : NetworkBehaviour
         }
     }
 
-    [ClientRpc]
-    private void SpawnEnvRpc()
+    private void RpcSpawnEnv(float size)
     {
-        var nbEnv = Mathf.Round(GetIslandSize() / 15);
-        var startX = 0f;
-        if (nbEnv >= 1) {
-            startX = (-7f * nbEnv) + 7f;
-        }
-        for (int i = 0; i < nbEnv; i++) {
-            Instantiate(env, new Vector3(transform.position.x + (startX), -0.2f, 0), transform.rotation);
-            startX += 14f;
-        }
-    }
-
-    private void SpawnEnv()
-    {
+        GameObject.FindGameObjectWithTag("Island").transform.localScale = new Vector3(size, 0.2f, 1);
         var nbEnv = Mathf.Round(GetIslandSize() / 15);
         var startX = 0f;
         if (nbEnv >= 1)
         {
             startX = (-7f * nbEnv) + 7f;
         }
+        Debug.Log("nb env : " + nbEnv);
         for (int i = 0; i < nbEnv; i++)
         {
             Instantiate(env, new Vector3(transform.position.x + (startX), -0.2f, 0), transform.rotation);
             startX += 14f;
         }
+    }
+
+    [ClientRpc]
+    private void RpcShowWinnerScreen(string name, float score)
+    {
+        GameObject.FindObjectOfType<CameraRig>().WinnerScreen(name, score);
+    }
+
+    [ClientRpc]
+    private void RpcShowSoloScreen(float score)
+    {
+        GameObject.FindObjectOfType<CameraRig>().SoloWinnerScreen(score);
     }
 
     private void GetPlayers()
@@ -101,5 +166,18 @@ public class GameManage : NetworkBehaviour
                 players.Add(obj.GetComponent<PlayerScore>());
             }
         }
+    }
+
+    private PlayerScore FindWinner()
+    {
+        PlayerScore winner = null;
+        foreach (PlayerScore player in players)
+        {
+            if (winner == null)
+                winner = player;
+            else if (winner.GetMaxHeigth() < player.GetMaxHeigth())
+                winner = player;
+        }
+        return winner;
     }
 }
