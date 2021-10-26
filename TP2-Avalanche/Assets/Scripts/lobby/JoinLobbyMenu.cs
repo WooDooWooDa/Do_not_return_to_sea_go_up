@@ -1,3 +1,4 @@
+using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using UnityEngine.UI;
 
 public class JoinLobbyMenu : MonoBehaviour
 {
-    [SerializeField] private NetworkManagerLobby networkManager;
+    [SerializeField] private NetworkRoomManager networkManager;
 
     [Header("UI")]
     [SerializeField] private GameObject lobbyPagePanel;
@@ -18,6 +19,15 @@ public class JoinLobbyMenu : MonoBehaviour
         string ip = ipAdressField.text;
         if (ip == "") {
             ip = "localhost";
+        }
+        if (networkManager == null) {
+            networkManager = GameObject.FindObjectOfType<NetworkRoomManager>();
+        }
+        if (networkManager.isNetworkActive || networkManager.isActiveAndEnabled) {
+            Debug.LogError("NETWORK IS ACTIVE");
+            networkManager.StopHost();
+            networkManager.StopClient();
+            networkManager.StopServer();
         }
         try {
             networkManager.networkAddress = ip;

@@ -30,6 +30,10 @@ public class NetworkRoomPlayerLobby : NetworkRoomPlayer
 
     public override void OnStartLocalPlayer()
     {
+        if (isClientOnly) {
+            GameObject.FindGameObjectWithTag("StartGameButton").SetActive(false);
+        }
+
         PlayerName = PlayerPrefs.GetString(PlayerNameInput.NAME_KEY);
         Button readyButton = GameObject.FindGameObjectWithTag("ReadyButton").GetComponent<Button>();
         readyButton.onClick.AddListener(buttonClick);
@@ -86,7 +90,7 @@ public class NetworkRoomPlayerLobby : NetworkRoomPlayer
         // Do nothing if we already have the row added for the current player index
         if (_lobbyRows.ContainsKey(playerIndex)) return;
 
-        var playerRow = Instantiate(playerRowPrefab, playerRowPrefab.transform.position, playerRowPrefab.transform.rotation);
+        var playerRow = Instantiate(playerRowPrefab);
         var gridManager = grid.GetComponent<PlayerGridManager>();
         var lobbyGridRow = playerRow.GetComponent<LobbyGridRow>();
         lobbyGridRow.SetIndexAndName(playerIndex, playerName);

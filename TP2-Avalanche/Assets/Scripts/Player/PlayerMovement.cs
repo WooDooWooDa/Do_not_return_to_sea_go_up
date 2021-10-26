@@ -19,6 +19,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private float groundDistance = 0.45f;
     private Vector3 velocity;
+    [SyncVar]
     private bool isGrounded;
     private bool isWalling = false;
     private bool canMove;
@@ -74,6 +75,7 @@ public class PlayerMovement : NetworkBehaviour
         }
 
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask) || Physics.CheckSphere(groundCheck.position, groundDistance, cubeLayer);
+        CmdUpdateGrounded(isGrounded);
 
         if (!isGrounded && velocity.y < 0)
         {
@@ -110,5 +112,10 @@ public class PlayerMovement : NetworkBehaviour
     private void Jump()
     {
         velocity.y = Mathf.Sqrt(currentJumpHeight * -2f * gravity);
+    }
+
+    private void CmdUpdateGrounded(bool grounded)
+    {
+        isGrounded = grounded;
     }
 }

@@ -18,13 +18,20 @@ public class LobbyMenu : MonoBehaviour
 
     public void HostLobby()
     {
-        try
-        {
+        if (networkManager == null) {
+            networkManager = GameObject.FindObjectOfType<NetworkRoomManager>();
+        }
+        if (networkManager.isNetworkActive || networkManager.isActiveAndEnabled) {
+            Debug.LogError("NETWORK IS ACTIVE");
+            networkManager.StopHost();
+            networkManager.StopClient();
+            networkManager.StopServer();
+        }
+        try {
             networkManager.StartHost();
-            landingPagePanel.SetActive(false);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             Debug.Log(e);
         }
+        landingPagePanel.SetActive(false);
     }
 }
