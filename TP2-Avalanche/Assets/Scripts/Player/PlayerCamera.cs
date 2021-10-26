@@ -10,9 +10,13 @@ public class PlayerCamera : NetworkBehaviour
 
     private GameObject rig;
 
-    void Awake()
+    private void Update()
     {
-        
+        if (GetComponent<PlayerItem>().HasActiveEffect())
+        {
+            PlayerItem item = GetComponent<PlayerItem>();
+            rig.GetComponent<CameraRig>().UpdatePlayerEffect(item.GetItemName(), item.GetTimeLeft());
+        }
     }
 
     public void DeadScreen(float score)
@@ -30,6 +34,7 @@ public class PlayerCamera : NetworkBehaviour
         var cameraRig = Instantiate(cameraRigPrefab, transform.position - (new Vector3(0, -5, 25)), new Quaternion(transform.rotation.x, 0, transform.rotation.z, transform.rotation.w));
         cameraRig.GetComponentInChildren<CameraRig>().AssociatedPlayer = gameObject;
         rig = cameraRig;
+        GetComponent<PlayerItem>().SetUI(rig.GetComponent<CameraRig>().GetPlayerItemUI());
     }
 
     

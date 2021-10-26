@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 public class PlayerItem : MonoBehaviour
@@ -8,33 +9,47 @@ public class PlayerItem : MonoBehaviour
     [SerializeField] private Effect activeEffect;
     [SerializeField] private float effectDuration;
 
-    private float elapsed = 0f;
+    private GameObject playerItemUI;
+
+    private float timeLeft = 0f;
+    private bool effectIsActive = false;
+
+    public void SetUI(GameObject playerItem)
+    {
+        playerItemUI = playerItem;
+    }
 
     public string GetItemName()
     {
-        return activeEffect.ToString();
+        return string.Join(" ", Regex.Split(activeEffect.ToString(), @"(?<!^)(?=[A-Z])"));
     }
 
     public string GetTimeLeft()
     {
-        return elapsed.ToString("0");
+        return timeLeft.ToString("0");
+    }
+
+    public bool HasActiveEffect()
+    {
+        return effectIsActive;
     }
 
     public void CollectItem(Effect itemEffect, float duration)
     {
+        if (effectIsActive) return;
+
         activeEffect = itemEffect;
         effectDuration = duration;
     }
 
     private void Update()
     {
-        if (activeEffect != Effect.None && elapsed <= effectDuration) { 
-            elapsed += Time.deltaTime;
-            if (elapsed >= 1f) {
-                elapsed %= 1f;
-                ApplyEffect();
-            }
-        } else {
+        if (activeEffect != Effect.None && !effectIsActive) {
+            timeLeft = effectDuration;
+            effectIsActive = true;
+            playerItemUI.SetActive(true);
+            InvokeRepeating(nameof(ApplyEffect), 0, 1);
+        } else if (timeLeft <= 0 && effectIsActive) {
             StopCurrentEffect();
         }
     }
@@ -47,11 +62,15 @@ public class PlayerItem : MonoBehaviour
             case Effect.FeatherFalling: gameObject.GetComponent<PlayerMovement>().ApplyFeatherFalling(); break;
             case Effect.HealthRegen: gameObject.GetComponent<PlayerHealth>().ApplyHealthRegen(); break;
         }
+        timeLeft--;
     }
 
     private void StopCurrentEffect()
     {
-        elapsed = 0f;
+        CancelInvoke();
+        timeLeft = 0f;
+        effectIsActive = false;
+        playerItemUI.SetActive(false);
         effectDuration = 0f;
         activeEffect = Effect.None;
         gameObject.GetComponent<PlayerMovement>().ResetToBase();

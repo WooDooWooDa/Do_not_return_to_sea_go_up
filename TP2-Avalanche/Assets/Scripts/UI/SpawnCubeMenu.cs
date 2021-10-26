@@ -19,20 +19,13 @@ public class SpawnCubeMenu : MonoBehaviour
 
     void Update()
     {
-        timer -= Time.deltaTime;
-        if (timer <= 0f)
-        {
-            Spawn();
-            counter++;
-            timer = spawnRate + Random.Range(-0.2f, 1f);
-        }
-        if (counter >= maxCubes)
-        {
-            counter = 0;
-            var cubes = GameObject.FindGameObjectsWithTag("MenuCubes");
-            foreach (var cube in cubes)
+        if (maxCubes > counter) {
+            timer -= Time.deltaTime;
+            if (timer <= 0f)
             {
-                Destroy(cube);
+                Spawn();
+                counter++;
+                timer = spawnRate + Random.Range(-0.2f, 1f);
             }
         }
     }

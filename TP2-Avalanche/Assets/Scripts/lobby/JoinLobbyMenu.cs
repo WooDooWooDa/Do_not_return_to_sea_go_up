@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -15,7 +16,17 @@ public class JoinLobbyMenu : MonoBehaviour
     public void JoinLobby()
     {
         string ip = ipAdressField.text;
-        networkManager.networkAddress = ip;
-        networkManager.StartClient();
+        if (ip == "") {
+            ip = "localhost";
+        }
+        try {
+            networkManager.networkAddress = ip;
+            networkManager.StartClient();
+        } catch (Exception e)
+        {
+            Debug.Log(e);
+            Debug.Log("Wrong ip");
+        }
+        
     }
 }

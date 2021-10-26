@@ -12,14 +12,15 @@ public class CubeSpawner : NetworkBehaviour
     [SerializeField] List<GameObject> items;
 
     private float cubeSpawnRate = 1f;
-    private float itemSpawnRate = 3f;
+    private float itemSpawnRate = 5f;
     private float cubeTimer = 0f;
     private float itemTimer = 0f;
     private float minHeight = 25f;
 
-    public void Initialize(GameManage gameManager)
+    public void Initialize(GameManage gameManager, int nbPlayers)
     {
         this.gameManager = gameManager;
+        cubeSpawnRate /= nbPlayers;
         SetWidth();
         transform.position = new Vector3(transform.position.x, minHeight, transform.position.z);
     }
@@ -27,6 +28,7 @@ public class CubeSpawner : NetworkBehaviour
     void Update()
     {
         if (!isServer) return;
+        if (gameManager == null) return;
         UpdatePosition();
         cubeTimer += Time.deltaTime;
         itemTimer += Time.deltaTime;
@@ -34,7 +36,7 @@ public class CubeSpawner : NetworkBehaviour
         if (cubeTimer >= cubeSpawnRate)
         {
             Spawn(cubes);
-            cubeTimer = 0f + Random.Range(-0.2f, 0.2f);
+            cubeTimer = 0f + Random.Range(-0.1f, 0.1f);
         }
 
         if (itemTimer >= itemSpawnRate) {

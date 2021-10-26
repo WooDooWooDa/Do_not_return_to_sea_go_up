@@ -7,9 +7,12 @@ using UnityEngine.SceneManagement;
 public class GameManage : NetworkBehaviour
 {
     [SerializeField] List<PlayerScore> players;
-    [SerializeField] GameObject env;
+    [SerializeField] List<GameObject> envs;
     [SerializeField] GameObject spawnPointPrefab;
     [SerializeField] CubeSpawner cubeSpawner;
+
+    [Header("Music")]
+    [SerializeField] List<AudioClip> playlist;
 
     private int nbConnPlayers;
 
@@ -19,13 +22,18 @@ public class GameManage : NetworkBehaviour
         return players;
     }
 
+    public override void OnStartServer()
+    {
+        Initialize(NetworkManager.singleton.numPlayers);
+        StartGame();
+    }
+
     [Server]
     public void Initialize(int nbPlayers)
     {
         nbConnPlayers = nbPlayers;
         if (isServer)
         {
-
             SetIslandSize();
             SpawnSpawnPoint();
             StartSpawningCubes();
@@ -62,6 +70,7 @@ public class GameManage : NetworkBehaviour
     [Server]
     private IEnumerator RoundPlaying()
     {
+        RpcPlayMusic(Random.Range(0, playlist.Count - 1));
         while (OnePlayerAlive())
         {
             yield return null;
@@ -75,7 +84,10 @@ public class GameManage : NetworkBehaviour
         if (players.Count == 1) {
             RpcShowSoloScreen(winner.GetMaxHeigth());
         } else {
-            RpcShowWinnerScreen(winner.GetComponent<Player>().Name, winner.GetMaxHeigth());
+            foreach (PlayerScore player in players)
+            {
+                RpcShowWinnerScreen(player.GetComponent<NetworkIdentity>().connectionToClient, winner.GetComponent<Player>().Name, winner.GetMaxHeigth(), player.GetMaxHeigth());
+            }
         }
 
         yield return new WaitForSeconds(5);
@@ -104,14 +116,14 @@ public class GameManage : NetworkBehaviour
     {
         if (!isServer) return;
         cubeSpawner = GameObject.Find("CubeSpawner").GetComponent<CubeSpawner>();
-        cubeSpawner.Initialize(this);
+        cubeSpawner.Initialize(this, nbConnPlayers);
     }
 
     [Server]
     private void SetIslandSize()
     {
         float islandLength = nbConnPlayers > 1 ? (nbConnPlayers * 0.5f) : 0.5f;
-        RpcSpawnEnv(islandLength);
+        SpawnEnv(islandLength);
     }
 
     private void SpawnSpawnPoint()
@@ -127,42 +139,50 @@ public class GameManage : NetworkBehaviour
         }
     }
 
-    private void RpcSpawnEnv(float size)
+    private void SpawnEnv(float size)
     {
         GameObject.FindGameObjectWithTag("Island").transform.localScale = new Vector3(size, 0.2f, 1);
         var nbEnv = Mathf.Round(GetIslandSize() / 15);
         var startX = 0f;
-        if (nbEnv >= 1)
-        {
+        if (nbEnv >= 1) {
             startX = (-7f * nbEnv) + 7f;
         }
-        Debug.Log("nb env : " + nbEnv);
-        for (int i = 0; i < nbEnv; i++)
-        {
-            Instantiate(env, new Vector3(transform.position.x + (startX), -0.2f, 0), transform.rotation);
+        for (int i = 0; i < nbEnv; i++) {
+            NetworkServer.Spawn(Instantiate(envs[Random.Range(0, envs.Count - 1)], new Vector3(transform.position.x + (startX), -0.2f, 0), transform.rotation));
             startX += 14f;
         }
     }
 
     [ClientRpc]
-    private void RpcShowWinnerScreen(string name, float score)
+    private void RpcPlayMusic(int clipIndex)
     {
-        GameObject.FindObjectOfType<CameraRig>().WinnerScreen(name, score);
+        Debug.Log(clipIndex);
+        GameObject.Find("MenuMusic").GetComponent<AudioSource>().Stop();
+        AudioSource audioSource = GameObject.Find("BgMusic").GetComponent<AudioSource>();
+        audioSource.clip = playlist[clipIndex];
+        audioSource.Play();
+
+    }
+
+    [TargetRpc]
+    private void RpcShowWinnerScreen(NetworkConnection target, string name, float score, float personnalScore)
+    {
+        Debug.Log("BEFORE WINNER SCREEN");
+        GameObject.FindObjectOfType<CameraRig>().WinnerScreen(name, score, personnalScore);
     }
 
     [ClientRpc]
     private void RpcShowSoloScreen(float score)
     {
+        Debug.Log("BEFORE SOLO SCREEN");
         GameObject.FindObjectOfType<CameraRig>().SoloWinnerScreen(score);
     }
 
     private void GetPlayers()
     {
         var playersObj = GameObject.FindGameObjectsWithTag("Player");
-        foreach (var obj in playersObj)
-        {
-            if (obj != null && !players.Contains(obj.GetComponent<PlayerScore>()))
-            {
+        foreach (var obj in playersObj) {
+            if (obj != null && !players.Contains(obj.GetComponent<PlayerScore>())) {
                 players.Add(obj.GetComponent<PlayerScore>());
             }
         }
@@ -171,8 +191,7 @@ public class GameManage : NetworkBehaviour
     private PlayerScore FindWinner()
     {
         PlayerScore winner = null;
-        foreach (PlayerScore player in players)
-        {
+        foreach (PlayerScore player in players) {
             if (winner == null)
                 winner = player;
             else if (winner.GetMaxHeigth() < player.GetMaxHeigth())

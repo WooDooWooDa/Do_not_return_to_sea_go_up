@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7324832743044419727}
-  - component: {fileID: 5014750630874588653}
+  - component: {fileID: 5912885132945522597}
   m_Layer: 0
   m_Name: EnvDay
   m_TagString: Untagged
@@ -59,7 +59,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5014750630874588653
+--- !u!114 &5912885132945522597
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -73,7 +73,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneId: 0
   serverOnly: 0
-  visible: 2
+  visible: 0
   m_AssetId: 9084247ed7706494d954086f19e003e2
   hasSpawned: 0
 --- !u!1001 &413930462527773926

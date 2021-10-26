@@ -51,9 +51,8 @@ public class PlayerHealth : NetworkBehaviour
         if (currentHealth <= 0 && alive)
         {
             alive = false;
-            Transform body = gameObject.transform.Find("Body");
-            body.gameObject.SetActive(false);
-            OnDeath(gameObject.GetComponent<NetworkIdentity>().connectionToClient);
+            TargetOnDeath(gameObject.GetComponent<NetworkIdentity>().connectionToClient);
+            RpcOnDeath(gameObject.GetComponent<Player>());
         }
     }
 
@@ -74,11 +73,18 @@ public class PlayerHealth : NetworkBehaviour
     }
 
     [TargetRpc]
-    private void OnDeath(NetworkConnection target)
-    {   
+    private void TargetOnDeath(NetworkConnection target)
+    {
+        
         var camera = gameObject.GetComponent<PlayerCamera>();
         camera.DeadScreen(gameObject.GetComponent<PlayerScore>().GetMaxHeigth());
         camera.Rig().GetComponentInChildren<CameraRig>().FollowLeader();
         gameObject.GetComponent<PlayerMovement>().ToggleMovement();
+    }
+
+    [ClientRpc]
+    private void RpcOnDeath(Player player)
+    {
+        (player.gameObject.transform.Find("Body")).gameObject.SetActive(false);
     }
 }

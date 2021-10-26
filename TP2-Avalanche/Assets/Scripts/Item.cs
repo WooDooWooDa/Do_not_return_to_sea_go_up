@@ -12,7 +12,7 @@ public class Item : NetworkBehaviour
 
     void Start()
     {
-        duration = Random.Range(5, 8);
+        duration = Random.Range(6, 10);
         if (effect == Effect.HealthRegen)
             duration = 3;
         if (Random.Range(1, 5) == 5) {

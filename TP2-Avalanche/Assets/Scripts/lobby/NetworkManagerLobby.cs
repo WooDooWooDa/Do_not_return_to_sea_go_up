@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class NetworkManagerLobby : NetworkRoomManager
 {
     [Header("Room")]
-    [SerializeField] private GameManage gameManager;
+    //[SerializeField] private GameManage gameManager;
 
     private bool _showStartButton;
     private GameObject startButton = null; 
@@ -21,8 +21,8 @@ public class NetworkManagerLobby : NetworkRoomManager
         }
         if (sceneName == GameplayScene)
         {
-            gameManager.Initialize(numPlayers);
-            gameManager.StartGame();
+            //gameManager.Initialize(numPlayers);
+            //gameManager.StartGame();
         }
     }
 

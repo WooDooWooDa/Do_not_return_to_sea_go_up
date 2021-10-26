@@ -53,6 +53,7 @@ public class PlayerMovement : NetworkBehaviour
 
     public void ToggleMovement()
     {
+        velocity.y = 0;
         canMove = !canMove;
     }
 
@@ -69,7 +70,6 @@ public class PlayerMovement : NetworkBehaviour
         if (!isLocalPlayer) return;
 
         if (!canMove) {
-            velocity.y = 0;
             return;
         }
 

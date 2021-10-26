@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1565129611}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.05, z: 0}
+  m_LocalPosition: {x: 0, y: -1.77, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3247853509302360567}
@@ -266,6 +266,7 @@ GameObject:
   - component: {fileID: 7311171223741603502}
   - component: {fileID: 3062012079632262033}
   - component: {fileID: 4132284794965472782}
+  - component: {fileID: 75259874555772946}
   m_Layer: 0
   m_Name: Squid
   m_TagString: Player
@@ -376,6 +377,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1a869ac45853ec4487169371a80870e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   crusher:
     serializedVersion: 2
     m_Bits: 128
@@ -532,6 +535,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeEffect: 0
   effectDuration: 0
+--- !u!81 &75259874555772946
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2763346651648705357}
+  m_Enabled: 1
 --- !u!1 &2949165082562076405
 GameObject:
   m_ObjectHideFlags: 0
