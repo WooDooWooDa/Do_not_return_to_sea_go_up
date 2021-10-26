@@ -9,6 +9,8 @@ public class KillPlayer : NetworkBehaviour
     [SerializeField] private LayerMask cubes;
 
     private PlayerMovement playerMovement;
+    [SyncVar]
+    private bool isGod = false;
 
     private void Awake()
     {
@@ -17,7 +19,16 @@ public class KillPlayer : NetworkBehaviour
 
     private void Update()
     {
+        if (isLocalPlayer) {
+            if (Input.GetKeyDown(KeyCode.Escape)) {
+                isGod = !isGod;
+                CmdMakeGod(isGod);
+            }
+        }
+
         if (!isServer) return;
+
+        if (isGod) return;
 
         if (GetComponent<PlayerHealth>().IsAlive() && GameObject.Find("Ocean").transform.position.y - 1 > gameObject.transform.position.y)
         {
@@ -30,6 +41,8 @@ public class KillPlayer : NetworkBehaviour
     {
         if (!isServer) return;
 
+        if (isGod) return;
+
         if (playerMovement.IsGrounded && (cubes.value & (1 << collision.gameObject.layer)) > 0 && GetComponent<PlayerHealth>().IsAlive()) //kill player if crushed
         {
             Debug.Log("Crusher");
@@ -41,6 +54,8 @@ public class KillPlayer : NetworkBehaviour
     {
         if (!isServer) return;
 
+        if (isGod) return;
+
         if ((crusher.value & (1 << collision.gameObject.layer)) > 0 && !collision.GetComponentInParent<Rigidbody>().isKinematic) //dmg player player if crushed but not grounded
         {
             Debug.Log("take damage");
@@ -51,5 +66,11 @@ public class KillPlayer : NetworkBehaviour
                 dmg /= 2;
             GetComponent<PlayerHealth>().TakeDamage(dmg);
         }
+    }
+
+    [Command]
+    private void CmdMakeGod(bool mode)
+    {
+        isGod = mode;
     }
 }
